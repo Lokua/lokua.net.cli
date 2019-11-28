@@ -1,23 +1,26 @@
 import yargs from 'yargs'
 import colors from 'chalk'
+import midiUtil from '@lokua/midi-util'
+
+const logResult = compose(console.info, colors.green)
 
 const programs = new Map([
   [
     'gcd',
     async ({ numbers }) => {
       const result = (await getProgram('gcd'))(...numbers)
-      console.info(colors.green(result))
+      logResult(result)
     },
   ],
   [
     'lcm',
     async ({ numbers }) => {
       const result = (await getProgram('lcm'))(...numbers)
-      console.info(colors.green(result))
+      logResult(result)
     },
   ],
-  ['mtof', notImplemented],
-  ['ftom', notImplemented],
+  ['mtof', compose(logResult, midiUtil.mtof, prop('midiNote'))],
+  ['ftom', compose(logResult, midiUtil.ftom, prop('frequency'))],
 ])
 
 const argv = yargs
@@ -58,6 +61,15 @@ async function getProgram(name) {
   return (await import(`./programs/${name}.mjs`)).default
 }
 
+function compose(...fns) {
+  return fns.reduce((f, g) => (...args) => f(g(...args)))
+}
+
+function prop(key) {
+  return obj => obj[key]
+}
+
+// eslint-disable-next-line no-unused-vars
 function notImplemented() {
   console.info(colors.red('not implemented'))
 }

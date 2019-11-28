@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@lokua/midi-util": "1.0.0-beta.2",
     "chalk": "3.0.0",
     "yargs": "15.0.2"
   },
