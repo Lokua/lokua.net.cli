@@ -9,7 +9,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "chalk": "3.0.0",
+    "yargs": "15.0.2"
+  },
   "devDependencies": {
     "eslint": "6.7.1",
     "eslint-config-lokua": "8.0.0",
