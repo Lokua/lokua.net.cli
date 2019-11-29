@@ -1,7 +1,7 @@
 import yargs from 'yargs'
 import colors from 'chalk'
 import midiUtil from '@lokua/midi-util'
-import { round } from './util.mjs'
+import { compose, prop, round } from './util.mjs'
 
 const logResult = compose(console.info, colors.green)
 
@@ -84,14 +84,6 @@ function parseArgs(argv) {
 
 async function getProgram(name) {
   return (await import(`./${name}.mjs`)).default
-}
-
-function compose(...fns) {
-  return fns.reduce((f, g) => (...args) => f(g(...args)))
-}
-
-function prop(key) {
-  return obj => obj[key]
 }
 
 function notImplemented() {
