@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.mjs"
+    "start": "node src/index.mjs",
+    "test": "node src/bpm2ms.spec.mjs && node src/bpm2hz.spec.mjs"
   },
   "keywords": [],
   "author": "",
