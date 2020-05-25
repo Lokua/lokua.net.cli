@@ -21,55 +21,63 @@ const programs = new Map([
     },
   ],
   ['mtof', compose(logResult, midiUtil.mtof, prop('midiNote'))],
+  [
+    'midi-chart',
+    async () => {
+      const result = (await getProgram('midiChart'))()
+      logResult(result.map(x => Object.values(x).join(' ')).join('\n'))
+    },
+  ],
   ['ftom', compose(logResult, midiUtil.ftom, prop('frequency'))],
   [
     'bpm2ms',
-    async ({ bpm }) => {
+    async ({ bpm, round }) => {
       const result = (await getProgram('bpm2ms'))(parseFloat(bpm))
-      console.info(roundBpmProgramValues(result))
+      console.info(roundBpmProgramValues(result, round))
     },
   ],
   [
     'bpm2hz',
-    async ({ bpm }) => {
+    async ({ bpm, round }) => {
       const result = (await getProgram('bpm2hz'))(parseFloat(bpm))
-      console.info(roundBpmProgramValues(result))
+      console.info(roundBpmProgramValues(result, round))
     },
   ],
 ])
 
 const argv = yargs
   .command('gcd [numbers..]', 'greatest common denominator')
-  .help()
   .command('lcm [numbers..]', 'greatest common denominator')
-  .help()
   .command('mtof <midiNote>', 'convert midi note to frequency')
-  .help()
+  .command(
+    'midi-chart',
+    'display full chart of midi notes, frequencies, and milliseconds'
+  )
   .command('ftom <frequency>', 'convert frequency to midi note')
-  .help()
   .command(
     'bpm2ms <bpm> [round]',
     'print table of note values in ms for given tempo'
   )
-  .help()
   .command(
     'bpm2hz <bpm> [round]',
     'print table of note values in Hz for given tempo'
   )
-  .help()
   .usage('<command> [options]')
 
 main()
 
 function main() {
-  const { program, args } = parseArgs(argv.argv)
+  try {
+    const { program, args } = parseArgs(argv.argv)
+    const fn = programs.get(program)
 
-  const fn = programs.get(program)
-
-  if (fn) {
-    fn(args)
-  } else {
-    argv.showHelp()
+    if (fn) {
+      fn(args)
+    } else {
+      argv.showHelp()
+    }
+  } catch (error) {
+    console.error('caught', error)
   }
 }
 
@@ -90,12 +98,15 @@ function notImplemented() {
   console.info(colors.red('not implemented'))
 }
 
-function roundBpmProgramValues(result) {
+function roundBpmProgramValues(result, nDecimals = -1) {
   return Object.entries(result).reduce(
     (o, [k, v]) => ({
       ...o,
       [k]: Object.entries(v).reduce(
-        (o, [k, v]) => ({ ...o, [k]: round(v, 2) }),
+        (o, [k, v]) => ({
+          ...o,
+          [k]: nDecimals === -1 ? v : round(v, 2),
+        }),
         {}
       ),
     }),
