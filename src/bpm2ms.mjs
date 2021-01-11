@@ -1,5 +1,6 @@
 export default function bpm2ms(bpm) {
   const notes = [1, 2, 4, 8, 16, 32, 64, 128]
+
   const makeNext = (object, bpm, multipler, note) => ({
     ...object,
     [note]: noteValueToMs(bpm, multipler, note),
