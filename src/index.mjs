@@ -43,6 +43,13 @@ const programs = new Map([
       console.info(roundBpmProgramValues(result, round))
     },
   ],
+  [
+    'randomName',
+    async () => {
+      const result = (await getProgram('randomName'))()
+      console.info(result)
+    },
+  ],
 ])
 
 const argv = yargs
@@ -62,6 +69,7 @@ const argv = yargs
     'bpm2hz <bpm> [round]',
     'print table of note values in Hz for given tempo'
   )
+  .command('randomName', 'generate a random <adjective> <noun>')
   .usage('<command> [options]')
 
 main()

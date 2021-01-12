@@ -5,7 +5,10 @@ export default function bpm2hz(bpm) {
     (result, [key, values]) => ({
       ...result,
       [key]: Object.entries(values).reduce(
-        (o, [k, v]) => ({ ...o, [k]: msToHz(v) }),
+        (o, [k, v]) => ({
+          ...o,
+          [k]: msToHz(v),
+        }),
         {}
       ),
     }),

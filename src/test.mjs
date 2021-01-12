@@ -3,6 +3,7 @@ import colors from 'chalk'
 export function test(name, fn) {
   try {
     fn()
+    console.log(colors.green(`✅  ${name}`))
   } catch (error) {
     console.error(error)
     process.exit(0)

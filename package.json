@@ -1,5 +1,5 @@
 {
-  "name": "lokua.net.cli",
+  "name": "@lokua/cli",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,6 +13,7 @@
   "dependencies": {
     "@lokua/midi-util": "1.0.0-beta.2",
     "chalk": "3.0.0",
+    "random-int": "2.0.1",
     "yargs": "15.0.2"
   },
   "devDependencies": {
