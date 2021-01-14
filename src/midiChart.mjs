@@ -1,11 +1,10 @@
 import midiUtil from '@lokua/midi-util'
-import { round, times } from './util.mjs'
+import { round } from './util.mjs'
 
-// prettier-ignore
 const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
 export default function midiChart() {
-  return times(128, i => {
+  return times(i => {
     const hz = midiUtil.mtof(i)
 
     return {
@@ -14,7 +13,7 @@ export default function midiChart() {
       hz: round(hz, 2),
       ms: round(hzToMs(hz), 3),
     }
-  })
+  }, 128)
 }
 
 function hzToMs(hz) {

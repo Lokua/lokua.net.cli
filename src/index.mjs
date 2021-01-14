@@ -1,9 +1,10 @@
+import R from 'ramda'
 import yargs from 'yargs'
 import colors from 'chalk'
 import midiUtil from '@lokua/midi-util'
-import { compose, prop, round } from './util.mjs'
+import { round } from './util.mjs'
 
-const logResult = compose(console.info, colors.green)
+const logResult = R.compose(console.info, colors.green)
 
 const programs = new Map([
   [
@@ -20,7 +21,7 @@ const programs = new Map([
       logResult(result)
     },
   ],
-  ['mtof', compose(logResult, midiUtil.mtof, prop('midiNote'))],
+  ['mtof', R.compose(logResult, midiUtil.mtof, R.prop('midiNote'))],
   [
     'midi-chart',
     async () => {
@@ -28,7 +29,7 @@ const programs = new Map([
       logResult(result.map(x => Object.values(x).join(' ')).join('\n'))
     },
   ],
-  ['ftom', compose(logResult, midiUtil.ftom, prop('frequency'))],
+  ['ftom', R.compose(logResult, midiUtil.ftom, R.prop('frequency'))],
   [
     'bpm2ms',
     async ({ bpm, round }) => {
@@ -47,7 +48,34 @@ const programs = new Map([
     'randomName',
     async () => {
       const result = (await getProgram('randomName'))()
-      console.info(result)
+      logResult(result)
+    },
+  ],
+  [
+    'listScales',
+    async () => {
+      const result = (await getProgram('scales'))('list')()
+      logResult(result)
+    },
+  ],
+  [
+    'scaleNames',
+    async () => {
+      const result = (await getProgram('scales'))('names')()
+      logResult(result)
+    },
+  ],
+  [
+    'scale',
+    async ({ root, name }) => {
+      const scale = (await getProgram('scales'))('scale')(root, name)
+      logResult(scale.name)
+      console.table(
+        scale.scale.map((degree, index) => ({
+          degree,
+          note: scale.notes[index],
+        }))
+      )
     },
   ],
 ])
@@ -70,6 +98,9 @@ const argv = yargs
     'print table of note values in Hz for given tempo'
   )
   .command('randomName', 'generate a random <adjective> <noun>')
+  .command('listScales', 'list scales')
+  .command('scaleNames', 'list scale names')
+  .command('scale <root> <name>', 'see scaleNames command for list of names')
   .usage('<command> [options]')
 
 main()
