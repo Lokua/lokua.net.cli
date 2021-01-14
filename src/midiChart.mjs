@@ -1,10 +1,11 @@
+import R from 'ramda'
 import midiUtil from '@lokua/midi-util'
 import { round } from './util.mjs'
 
 const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
 export default function midiChart() {
-  return times(i => {
+  return R.map(i => {
     const hz = midiUtil.mtof(i)
 
     return {
@@ -13,7 +14,7 @@ export default function midiChart() {
       hz: round(hz, 2),
       ms: round(hzToMs(hz), 3),
     }
-  }, 128)
+  }, R.times(R.identity, 128))
 }
 
 function hzToMs(hz) {

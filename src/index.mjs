@@ -23,10 +23,10 @@ const programs = new Map([
   ],
   ['mtof', R.compose(logResult, midiUtil.mtof, R.prop('midiNote'))],
   [
-    'midi-chart',
+    'midiChart',
     async () => {
       const result = (await getProgram('midiChart'))()
-      logResult(result.map(x => Object.values(x).join(' ')).join('\n'))
+      console.table(R.map(R.omit(['midi']), result))
     },
   ],
   ['ftom', R.compose(logResult, midiUtil.ftom, R.prop('frequency'))],
@@ -85,7 +85,7 @@ const argv = yargs
   .command('lcm [numbers..]', 'greatest common denominator')
   .command('mtof <midiNote>', 'convert midi note to frequency')
   .command(
-    'midi-chart',
+    'midiChart',
     'display full chart of midi notes, frequencies, and milliseconds'
   )
   .command('ftom <frequency>', 'convert frequency to midi note')
