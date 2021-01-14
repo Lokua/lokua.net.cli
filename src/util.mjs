@@ -1,24 +1,7 @@
-export function compose(...fns) {
-  return fns.reduce((f, g) => (...args) => f(g(...args)))
-}
-
-export function prop(key) {
-  return obj => obj[key]
-}
-
-export function last(array) {
-  return array[array.length - 1]
-}
-
-export function times(n, fn = x => x) {
-  return Array(n)
-    .fill(null)
-    .map((_, i) => fn(i))
-}
+import R from 'ramda'
 
 export function round(n, numberOfDecimalPlaces) {
   const multiplier = Math.pow(10, numberOfDecimalPlaces)
-
   return Math.round(n * multiplier) / multiplier
 }
 
@@ -26,9 +9,13 @@ export function capitalize(word = '') {
   return word.charAt(0).toUpperCase() + word.slice(1)
 }
 
-export function titleCase(words) {
-  return words
-    .split(/\s+/)
-    .map(word => capitalize(word.trim()))
-    .join(' ')
-}
+export const titleCase = R.compose(
+  R.join(' '),
+  R.map(R.compose(R.capitalize, R.trim)),
+  R.split(/\s+/)
+)
+
+export const rotate = (n, array) => [
+  ...array.slice(array.length - n),
+  ...array.slice(0, array.length - n),
+]
