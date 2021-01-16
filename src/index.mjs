@@ -1,154 +1,102 @@
-import R from 'ramda'
+#!/usr/bin/env node
 import yargs from 'yargs'
+import { hideBin } from 'yargs/helpers'
+import R from 'ramda'
 import colors from 'chalk'
 import midiUtil from '@lokua/midi-util'
 import { round } from './util.mjs'
 
 const logResult = R.compose(console.info, colors.green)
+const roundBpmMap = R.map((o) => R.map((v) => round(v, 2), o))
 
-const programs = new Map([
-  [
-    'gcd',
+yargs(hideBin(process.argv))
+  .command(
+    'gcd [numbers..]',
+    'greatest common denominator',
+    R.identity,
     async ({ numbers }) => {
-      const result = (await getProgram('gcd'))(...numbers)
+      const result = (await import('./gcd.mjs')).default(...numbers)
       logResult(result)
     },
-  ],
-  [
-    'lcm',
+  )
+  .command(
+    'lcm [numbers..]',
+    'greatest common denominator',
+    R.identity,
     async ({ numbers }) => {
-      const result = (await getProgram('lcm'))(...numbers)
+      const result = (await import('./lcm.mjs')).default(...numbers)
       logResult(result)
     },
-  ],
-  ['mtof', R.compose(logResult, midiUtil.mtof, R.prop('midiNote'))],
-  [
+  )
+  .command(
+    'mtof <midiNote>',
+    'convert midi note to frequency',
+    R.identity,
+    R.compose(logResult, midiUtil.mtof, R.prop('midiNote')),
+  )
+  .command(
+    'ftom <frequency>',
+    'convert frequency to midi note',
+    R.identity,
+    R.compose(logResult, midiUtil.ftom, R.prop('frequency')),
+  )
+  .command(
     'midiChart',
+    'print table of midi with various conversions',
+    R.identity,
     async () => {
-      const result = (await getProgram('midiChart'))()
+      const result = (await import('./midiChart.mjs')).default()
       console.table(R.map(R.omit(['midi']), result))
     },
-  ],
-  ['ftom', R.compose(logResult, midiUtil.ftom, R.prop('frequency'))],
-  [
-    'bpm2ms',
-    async ({ bpm, round }) => {
-      const result = (await getProgram('bpm2ms'))(parseFloat(bpm))
-      console.info(roundBpmProgramValues(result, round))
+  )
+  .command(
+    'bpm2ms <bpm>',
+    'print table of note values in ms for given tempo',
+    R.identity,
+    async ({ bpm }) => {
+      const result = (await import('./bpm2ms.mjs')).default(parseFloat(bpm))
+      console.table(roundBpmMap(result))
     },
-  ],
-  [
-    'bpm2hz',
-    async ({ bpm, round }) => {
-      const result = (await getProgram('bpm2hz'))(parseFloat(bpm))
-      console.info(roundBpmProgramValues(result, round))
+  )
+  .command(
+    'bpm2hz <bpm>',
+    'print table of note values in Hz for given tempo',
+    R.identity,
+    async ({ bpm }) => {
+      const result = (await import('./bpm2hz.mjs')).default(parseFloat(bpm))
+      console.table(roundBpmMap(result))
     },
-  ],
-  [
+  )
+  .command(
     'randomName',
+    'generate a random <adjective> <noun>',
+    R.identity,
     async () => {
-      const result = (await getProgram('randomName'))()
+      const result = (await import('./randomName.mjs')).default()
       logResult(result)
     },
-  ],
-  [
-    'listScales',
-    async () => {
-      const result = (await getProgram('scales'))('list')()
-      logResult(result)
-    },
-  ],
-  [
-    'scaleNames',
-    async () => {
-      const result = (await getProgram('scales'))('names')()
-      logResult(result)
-    },
-  ],
-  [
-    'scale',
+  )
+  .command('listScales', 'list scales', R.identity, async () => {
+    const result = (await import('./scales.mjs')).list()
+    logResult(result)
+  })
+  .command('scaleNames', 'list scale names', R.identity, async () => {
+    const result = (await import('./scales.mjs')).names()
+    logResult(result)
+  })
+  .command(
+    'scale <root> <name>',
+    'see scaleNames command for list of names',
+    R.identity,
     async ({ root, name }) => {
-      const scale = (await getProgram('scales'))('scale')(root, name)
+      const scale = (await import('./scales.mjs')).scale(root, name)
       logResult(scale.name)
       console.table(
         scale.scale.map((degree, index) => ({
           degree,
           note: scale.notes[index],
-        }))
+        })),
       )
     },
-  ],
-])
-
-const argv = yargs
-  .command('gcd [numbers..]', 'greatest common denominator')
-  .command('lcm [numbers..]', 'greatest common denominator')
-  .command('mtof <midiNote>', 'convert midi note to frequency')
-  .command(
-    'midiChart',
-    'display full chart of midi notes, frequencies, and milliseconds'
   )
-  .command('ftom <frequency>', 'convert frequency to midi note')
-  .command(
-    'bpm2ms <bpm> [round]',
-    'print table of note values in ms for given tempo'
-  )
-  .command(
-    'bpm2hz <bpm> [round]',
-    'print table of note values in Hz for given tempo'
-  )
-  .command('randomName', 'generate a random <adjective> <noun>')
-  .command('listScales', 'list scales')
-  .command('scaleNames', 'list scale names')
-  .command('scale <root> <name>', 'see scaleNames command for list of names')
-  .usage('<command> [options]')
-
-main()
-
-function main() {
-  try {
-    const { program, args } = parseArgs(argv.argv)
-    const fn = programs.get(program)
-
-    if (fn) {
-      fn(args)
-    } else {
-      argv.showHelp()
-    }
-  } catch (error) {
-    console.error('caught', error)
-  }
-}
-
-function parseArgs(argv) {
-  const { _, $0, ...args } = argv
-
-  return {
-    program: _[0],
-    args,
-  }
-}
-
-async function getProgram(name) {
-  return (await import(`./${name}.mjs`)).default
-}
-
-function notImplemented() {
-  console.info(colors.red('not implemented'))
-}
-
-function roundBpmProgramValues(result, nDecimals = -1) {
-  return Object.entries(result).reduce(
-    (o, [k, v]) => ({
-      ...o,
-      [k]: Object.entries(v).reduce(
-        (o, [k, v]) => ({
-          ...o,
-          [k]: nDecimals === -1 ? v : round(v, 2),
-        }),
-        {}
-      ),
-    }),
-    {}
-  )
-}
+  .parse()

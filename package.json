@@ -2,7 +2,10 @@
   "name": "@lokua/cli",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/index.mjs",
+  "bin": {
+    "cli": "./src/index.mjs"
+  },
   "scripts": {
     "start": "node src/index.mjs",
     "test": "node src/bpm2ms.spec.mjs && node src/bpm2hz.spec.mjs"
@@ -15,11 +18,11 @@
     "chalk": "3.0.0",
     "ramda": "0.27.1",
     "random-int": "2.0.1",
-    "yargs": "15.0.2"
+    "yargs": "16.2.0"
   },
   "devDependencies": {
     "eslint": "6.7.1",
-    "eslint-config-lokua": "8.0.0",
+    "eslint-config-lokua": "5.0.1",
     "prettier": "1.19.1"
   }
 }

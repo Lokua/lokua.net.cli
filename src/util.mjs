@@ -11,8 +11,8 @@ export function capitalize(word = '') {
 
 export const titleCase = R.compose(
   R.join(' '),
-  R.map(R.compose(R.capitalize, R.trim)),
-  R.split(/\s+/)
+  R.map(R.compose(capitalize, R.trim)),
+  R.split(/\s+/),
 )
 
 export const rotate = (n, array) => [
