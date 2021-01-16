@@ -46,3 +46,12 @@ export const findClosest = R.curryN(2, (numbers, number) => {
 
   return foundIndex
 })
+
+// https://github.com/ramda/ramda/wiki/Cookbook#rename-keys-of-an-object
+export const renameKeys = R.curry((keysMap, obj) =>
+  R.reduce(
+    (acc, key) => R.assoc(keysMap[key] || key, obj[key], acc),
+    {},
+    R.keys(obj),
+  ),
+)

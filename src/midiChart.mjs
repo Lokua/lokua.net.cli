@@ -14,7 +14,6 @@ function convert(midiNote) {
   return {
     midi: midiNote,
     note,
-    // TODO: validate me
     octave: Math.floor(midiNote / 12) - 2,
     hz: round2(hz),
     ms: round3(hzToMs(hz)),

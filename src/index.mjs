@@ -41,7 +41,7 @@ yargs(hideBin(process.argv))
     R.compose(logResult, midiUtil.ftom, R.prop('frequency')),
   )
   .command(
-    'midiChart',
+    'midi',
     'print table of midi with various conversions',
     R.identity,
     async () => {
@@ -50,20 +50,11 @@ yargs(hideBin(process.argv))
     },
   )
   .command(
-    'bpm2ms <bpm>',
-    'print table of note values in ms for given tempo',
+    'bpm <bpm>',
+    'print table of note values in hz and ms for a given tempo',
     R.identity,
     async ({ bpm }) => {
-      const result = (await import('./bpm2ms.mjs')).default(parseFloat(bpm))
-      console.table(roundBpmMap(result))
-    },
-  )
-  .command(
-    'bpm2hz <bpm>',
-    'print table of note values in Hz for given tempo',
-    R.identity,
-    async ({ bpm }) => {
-      const result = (await import('./bpm2hz.mjs')).default(parseFloat(bpm))
+      const result = (await import('./bpmChart.mjs')).default(parseFloat(bpm))
       console.table(roundBpmMap(result))
     },
   )
@@ -100,11 +91,11 @@ yargs(hideBin(process.argv))
     },
   )
   .command(
-    'ringMod <carrier> <modulator>',
+    'ringMod <f0> <f1>',
     'view various analysis of ring modulation',
     R.identity,
-    async ({ carrier, modulator }) => {
-      const result = (await import('./ringMod.mjs')).default(carrier, modulator)
+    async ({ f0, f1 }) => {
+      const result = (await import('./ringMod.mjs')).default(f0, f1)
       console.table(result)
     },
   )
