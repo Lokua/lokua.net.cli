@@ -6,7 +6,7 @@ pretty generic so I've made it public.
 
 ## Help
 
-```sh
+```
 cli [command]
 
 Commands:
@@ -40,3 +40,5 @@ This will add a global `cli` command. If you don't want to use `cli` as the name
 you can clone the repo and call it whatever you want under package.json "bin"
 field, then run `sudo npm link` (because meh) in the project root to make it
 available globally or run commands as `npm start <cmd> [...options]` instead.
+
+### License MIT

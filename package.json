@@ -10,9 +10,12 @@
     "start": "node src/index.mjs",
     "test": "node src/bpm2ms.spec.mjs && node src/bpm2hz.spec.mjs"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "cli",
+    "music"
+  ],
+  "author": "Joshua Kleckner <dev@lokua.net> (https://gihub.com/Lokua)",
+  "license": "MIT",
   "dependencies": {
     "@lokua/midi-util": "1.0.0-beta.2",
     "chalk": "3.0.0",
