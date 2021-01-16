@@ -1,5 +1,3 @@
-const R = require('ramda')
-
 module.exports = {
   extends: ['lokua'],
   globals: {
