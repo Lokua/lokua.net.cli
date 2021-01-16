@@ -12,7 +12,7 @@ const roundBpmMap = R.map((o) => R.map((v) => round(v, 2), o))
 yargs(hideBin(process.argv))
   .command(
     'gcd [numbers..]',
-    'greatest common denominator',
+    'find greatest common denominator',
     R.identity,
     async ({ numbers }) => {
       const result = (await import('./gcd.mjs')).default(...numbers)
@@ -21,7 +21,7 @@ yargs(hideBin(process.argv))
   )
   .command(
     'lcm [numbers..]',
-    'greatest common denominator',
+    'find least common multiple',
     R.identity,
     async ({ numbers }) => {
       const result = (await import('./lcm.mjs')).default(...numbers)
