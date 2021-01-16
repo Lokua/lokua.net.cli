@@ -7,20 +7,20 @@ pretty generic so I've made it public.
 ## Help
 
 ```sh
+cli [command]
+
 Commands:
-  index.mjs gcd [numbers..]      find greatest common denominator
-  index.mjs lcm [numbers..]      find least common multiple
-  index.mjs mtof <midiNote>      convert midi note to frequency
-  index.mjs ftom <frequency>     convert frequency to midi note
-  index.mjs midiChart            print table of midi with various conversions
-  index.mjs bpm2ms <bpm>         print table of note values in ms for given temp
-                                 o
-  index.mjs bpm2hz <bpm>         print table of note values in Hz for given temp
-                                 o
-  index.mjs randomName           generate a random <adjective> <noun>
-  index.mjs listScales           list scales
-  index.mjs scaleNames           list scale names
-  index.mjs scale <root> <name>  see scaleNames command for list of names
+  cli gcd [numbers..]      find greatest common denominator
+  cli lcm [numbers..]      find least common multiple
+  cli mtof <midiNote>      convert midi note to frequency
+  cli ftom <frequency>     convert frequency to midi note
+  cli midiChart            print table of midi with various conversions
+  cli bpm2ms <bpm>         print table of note values in ms for given tempo
+  cli bpm2hz <bpm>         print table of note values in Hz for given tempo
+  cli randomName           generate a random <adjective> <noun>
+  cli listScales           list scales
+  cli scaleNames           list scale names
+  cli scale <root> <name>  see scaleNames command for list of names
 
 Options:
   --help     Show help                                                 [boolean]
