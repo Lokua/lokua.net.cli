@@ -1,15 +1,15 @@
 import assert from 'assert'
 import bpm2hz from './bpm2hz.mjs'
-import { round } from './util.mjs'
+import { round2 } from './util.mjs'
 import { test, xtest } from './test.mjs'
 
-const fixValues = o =>
+const fixValues = (o) =>
   Object.entries(o).reduce(
     (o, [key, value]) => ({
       ...o,
-      [key]: round(value, 2),
+      [key]: round2(value),
     }),
-    {}
+    {},
   )
 
 test('bpm2hz: binary', () => {

@@ -9,10 +9,10 @@ export default function bpm2hz(bpm) {
           ...o,
           [k]: msToHz(v),
         }),
-        {}
+        {},
       ),
     }),
-    {}
+    {},
   )
 }
 

@@ -4,10 +4,10 @@ import { hideBin } from 'yargs/helpers'
 import R from 'ramda'
 import colors from 'chalk'
 import midiUtil from '@lokua/midi-util'
-import { round } from './util.mjs'
+import { round2 } from './util.mjs'
 
 const logResult = R.compose(console.info, colors.green)
-const roundBpmMap = R.map((o) => R.map((v) => round(v, 2), o))
+const roundBpmMap = R.map((o) => R.map(round2, o))
 
 yargs(hideBin(process.argv))
   .command(
@@ -97,6 +97,15 @@ yargs(hideBin(process.argv))
           note: scale.notes[index],
         })),
       )
+    },
+  )
+  .command(
+    'ringMod <carrier> <modulator>',
+    'view various analysis of ring modulation',
+    R.identity,
+    async ({ carrier, modulator }) => {
+      const result = (await import('./ringMod.mjs')).default(carrier, modulator)
+      console.table(result)
     },
   )
   .parse()

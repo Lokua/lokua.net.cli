@@ -1,8 +1,7 @@
 import R from 'ramda'
 import midiUtil from '@lokua/midi-util'
-import { round } from './util.mjs'
-
-const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+import { round2, round3 } from './util.mjs'
+import notes from './data/notes.mjs'
 
 export default function midiChart() {
   return R.map(convert, R.times(R.identity, 128))
@@ -17,8 +16,8 @@ function convert(midiNote) {
     note,
     // TODO: validate me
     octave: Math.floor(midiNote / 12) - 2,
-    hz: round(hz, 2),
-    ms: round(hzToMs(hz), 3),
+    hz: round2(hz),
+    ms: round3(hzToMs(hz)),
   }
 }
 

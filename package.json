@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "node src/index.mjs",
-    "test": "node src/bpm2ms.spec.mjs && node src/bpm2hz.spec.mjs"
+    "test": "node src/bpm2ms.spec.mjs && node src/bpm2hz.spec.mjs && node src/ringMod.spec.mjs",
+    "lint": "eslint \"src/**/*.mjs\""
   },
   "keywords": [
     "cli",
@@ -24,8 +25,8 @@
     "yargs": "16.2.0"
   },
   "devDependencies": {
-    "eslint": "6.7.1",
-    "eslint-config-lokua": "5.0.1",
-    "prettier": "1.19.1"
+    "eslint": "7.18.0",
+    "eslint-config-lokua": "9.0.0-beta.1",
+    "prettier": "2.2.1"
   }
 }

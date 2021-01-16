@@ -16,7 +16,7 @@ export default function bpm2ms(bpm) {
       binary: {},
       ternary: {},
       dotted: {},
-    }
+    },
   )
 }
 

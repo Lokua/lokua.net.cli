@@ -1,7 +1,7 @@
 import R from 'ramda'
 import unsortedScales from './data/scales.mjs'
+import notes from './data/notes.mjs'
 
-const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 const joinByComma = R.join(', ')
 
 const scales = R.compose(
