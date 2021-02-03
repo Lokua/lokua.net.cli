@@ -19,22 +19,22 @@ export default function ringMod(c, m) {
     carrier: {
       ...cClosest,
       centsDifference: dist(c, cClosest.hz),
-      _originalValue: c,
+      actual: c,
     },
     modulator: {
       ...mClosest,
       centsDifference: dist(m, mClosest.hz),
-      _originalValue: m,
+      actual: m,
     },
     sideband1: {
       ...s1Closest,
       centsDifference: dist(s1, s1Closest.hz),
-      _originalValue: s1,
+      actual: s1,
     },
     sideband2: {
       ...s2Closest,
       centsDifference: dist(s2, s2Closest.hz),
-      _originalValue: s2,
+      actual: s2,
     },
   }
 }
