@@ -8,23 +8,32 @@ import { round2 } from './util.mjs'
 
 const logResult = R.compose(console.info, colors.green)
 const roundBpmMap = R.map((o) => R.map(round2, o))
+const toListOfNumbers = (ns) =>
+  ns
+    .split(',')
+    .filter((x) => x !== '')
+    .map((x) => parseInt(x, 10))
 
 yargs(hideBin(process.argv))
   .command(
-    'gcd [numbers..]',
+    'gcd <numbers..>',
     'find greatest common denominator',
     R.identity,
     async ({ numbers }) => {
-      const result = (await import('./gcd.mjs')).default(...numbers)
+      const result = (await import('./gcd.mjs')).default(
+        ...toListOfNumbers(numbers[0]),
+      )
       logResult(result)
     },
   )
   .command(
-    'lcm [numbers..]',
+    'lcm <numbers..>',
     'find least common multiple',
     R.identity,
     async ({ numbers }) => {
-      const result = (await import('./lcm.mjs')).default(...numbers)
+      const result = (await import('./lcm.mjs')).default(
+        ...toListOfNumbers(numbers[0]),
+      )
       logResult(result)
     },
   )
