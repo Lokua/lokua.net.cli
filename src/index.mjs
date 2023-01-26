@@ -108,4 +108,8 @@ yargs(hideBin(process.argv))
       console.table(result)
     },
   )
+  .command('ar', 'print note map for AR "ton" values', R.identity, async () => {
+    const result = (await import('./ar.mjs')).default()
+    console.table(result)
+  })
   .parse()
