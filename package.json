@@ -8,8 +8,9 @@
   },
   "scripts": {
     "start": "node src/index.mjs",
-    "test": "node src/bpm2ms.spec.mjs && node src/bpm2hz.spec.mjs && node src/ringMod.spec.mjs",
-    "lint": "eslint \"src/**/*.mjs\""
+    "test": "node src/bpm2ms.spec.mjs && node src/bpm2hz.spec.mjs",
+    "lint": "eslint \"src/**/*.mjs\"",
+    "deploy:local": "npm i -g ."
   },
   "keywords": [
     "cli",

@@ -11,5 +11,12 @@ module.exports = {
         varsIgnorePattern: 'xtest|notImplemented',
       },
     ],
+    quotes: [
+      'error',
+      'single',
+      {
+        avoidEscape: true,
+      },
+    ],
   },
 }
