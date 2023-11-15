@@ -117,4 +117,5 @@ yargs(hideBin(process.argv))
       console.table(result)
     },
   )
+  .recommendCommands()
   .parse()
