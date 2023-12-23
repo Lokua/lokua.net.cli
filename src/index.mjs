@@ -117,5 +117,14 @@ yargs(hideBin(process.argv))
       console.table(result)
     },
   )
+  .command(
+    'barsToTime <bpm> <bars>',
+    'print duration of <bars> bars for given <bpm> in hh:mm:ss format',
+    R.identity,
+    async ({ bpm, bars }) => {
+      const result = (await import('./barsToTime.mjs')).default(bpm, bars)
+      logResult(result)
+    },
+  )
   .recommendCommands()
   .parse()
