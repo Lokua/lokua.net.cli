@@ -6,7 +6,7 @@ import colors from 'chalk'
 import midiUtil from '@lokua/midi-util'
 import { round2 } from './util.mjs'
 
-const logResult = R.compose(console.info, colors.green)
+const logResult = R.compose(console.info, R.concat(R.__, '\n'), colors.green)
 const roundBpmMap = R.map((o) => R.map(round2, o))
 const toListOfNumbers = (ns) =>
   ns
@@ -124,6 +124,63 @@ yargs(hideBin(process.argv))
     async ({ bpm, bars }) => {
       const result = (await import('./barsToTime.mjs')).default(bpm, bars)
       logResult(result)
+    },
+  )
+  .command(
+    'frameCount <framerate> <duration> [cycles]',
+    'calculates the number of frames needed for an animation',
+    {
+      framerate: {
+        alias: 'f',
+        describe: 'Frame rate of the animation',
+        type: 'number',
+        demandOption: true,
+      },
+      duration: {
+        alias: 'd',
+        describe: 'Duration of the animation in seconds',
+        type: 'number',
+        default: 60,
+      },
+      cycles: {
+        alias: 'c',
+        describe: 'Number of cycles in the animation',
+        type: 'number',
+        default: 1,
+      },
+    },
+    ({ framerate, duration = 60, cycles = 1 }) => {
+      const totalFrames = framerate * duration
+      const frameCount = totalFrames / cycles
+      logResult(frameCount)
+    },
+  )
+  .command(
+    'frameCountBars <framerate> <bpm> [bars]',
+    'calculates the number of frames needed to represent a number of bars.',
+    {
+      framerate: {
+        alias: 'f',
+        describe: 'Frame rate of the animation',
+        type: 'number',
+        demandOption: true,
+      },
+      bpm: {
+        alias: 'b',
+        describe: 'Beats per minute',
+        type: 'number',
+        demandOption: true,
+      },
+      bars: {
+        alias: 'r',
+        describe: 'Number of bars',
+        type: 'number',
+        default: 1,
+      },
+    },
+    ({ framerate, bpm, bars = 1 }) => {
+      const frameCount = (bars * 4 * ((framerate * 60) / bpm)).toFixed(2)
+      logResult(frameCount)
     },
   )
   .recommendCommands()
