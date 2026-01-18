@@ -7,21 +7,36 @@ pretty generic so I've made it public.
 ## Help
 
 ```
-cli [command]
+index.mjs [command]
 
 Commands:
-  cli gcd [numbers..]      find greatest common denominator
-  cli lcm [numbers..]      find least common multiple
-  cli mtof <midiNote>      convert midi note to frequency
-  cli ftom <frequency>     convert frequency to midi note
-  cli midi                 print table of midi with various conversions
-  cli bpm <bpm>            print table of note values in hz and ms for a given t
-                           empo
-  cli randomName           generate a random <adjective> <noun>
-  cli listScales           list scales
-  cli scaleNames           list scale names
-  cli scale <root> <name>  see scaleNames command for list of names
-  cli ringMod <f0> <f1>    view various analysis of ring modulation
+  index.mjs gcd <numbers..>                 find greatest common denominator
+  index.mjs lcm <numbers..>                 find least common multiple
+  index.mjs mtof <midiNote>                 convert midi note to frequency
+  index.mjs ftom <frequency>                convert frequency to midi note
+  index.mjs midi                            print table of midi with various con
+                                            versions
+  index.mjs bpm <bpm>                       print table of note values in hz and
+                                             ms for a given tempo
+  index.mjs randomName                      generate a random <adjective> <noun>
+  index.mjs listScales                      list scales
+  index.mjs scaleNames                      list scale names
+  index.mjs scale <root> <name>             see scaleNames command for list of n
+                                            ames
+  index.mjs ringMod <f0> <f1>               view various analysis of ring modula
+                                            tion
+  index.mjs ar                              print note map for Analog Rytm's "to
+                                            n" values
+  index.mjs barsToTime <bpm> <bars>         print duration of <bars> bars for gi
+                                            ven <bpm> in hh:mm:ss format
+  index.mjs frameCount <framerate> <durati  calculates the number of frames need
+  on> [cycles]                              ed for an animation
+  index.mjs frameCountBars <framerate> <bp  calculates the number of frames need
+  m> [bars]                                 ed to represent a number of bars
+  index.mjs prepSample                      prepare audio sample by trimming sil
+                                            ence and normalizing
+  index.mjs prepSamples                     prepare all WAV files in a folder by
+                                             trimming silence and normalizing
 
 Options:
   --help     Show help                                                 [boolean]
@@ -29,9 +44,6 @@ Options:
 ```
 
 ## Install
-
-I've used node.js v14 for this. This will not work with any version of node that
-doesn't support es modules.
 
 ```js
 npm i -g @lokua/cli
