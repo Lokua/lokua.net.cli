@@ -157,7 +157,7 @@ yargs(hideBin(process.argv))
   )
   .command(
     'frameCountBars <framerate> <bpm> [bars]',
-    'calculates the number of frames needed to represent a number of bars.',
+    'calculates the number of frames needed to represent a number of bars',
     {
       framerate: {
         alias: 'f',
@@ -181,6 +181,50 @@ yargs(hideBin(process.argv))
     ({ framerate, bpm, bars = 1 }) => {
       const frameCount = (bars * 4 * ((framerate * 60) / bpm)).toFixed(2)
       logResult(frameCount)
+    },
+  )
+  .command(
+    'prepSample',
+    'prepare audio sample by trimming silence and normalizing',
+    (yargs) => {
+      return yargs
+        .option('i', {
+          alias: 'input',
+          describe: 'Input audio file path',
+          type: 'string',
+          demandOption: true,
+        })
+        .option('o', {
+          alias: 'output',
+          describe: 'Output audio file path',
+          type: 'string',
+          demandOption: true,
+        })
+    },
+    async ({ i, o }) => {
+      await (await import('./prepSample.mjs')).default(i, o)
+    },
+  )
+  .command(
+    'prepSamples',
+    'prepare all WAV files in a folder by trimming silence and normalizing',
+    (yargs) => {
+      return yargs
+        .option('i', {
+          alias: 'input',
+          describe: 'Input directory containing WAV files',
+          type: 'string',
+          demandOption: true,
+        })
+        .option('o', {
+          alias: 'output',
+          describe: 'Output directory for processed files',
+          type: 'string',
+          demandOption: true,
+        })
+    },
+    async ({ i, o }) => {
+      await (await import('./prepSamples.mjs')).default(i, o)
     },
   )
   .recommendCommands()

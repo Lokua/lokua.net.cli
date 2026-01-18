@@ -1,9 +1,9 @@
 export default function bpm2ms(bpm) {
   const notes = [1, 2, 4, 8, 16, 32, 64, 128]
 
-  const makeNext = (object, bpm, multipler, note) => ({
+  const makeNext = (object, bpm, multiplier, note) => ({
     ...object,
-    [note]: noteValueToMs(bpm, multipler, note),
+    [note]: noteValueToMs(bpm, multiplier, note),
   })
 
   return notes.reduce(
@@ -20,8 +20,7 @@ export default function bpm2ms(bpm) {
   )
 }
 
-export function noteValueToMs(bpm, multipler, noteValue) {
+export function noteValueToMs(bpm, multiplier, noteValue) {
   const bar = (60000 * 4) / bpm
-
-  return (bar * multipler) / noteValue
+  return (bar * multiplier) / noteValue
 }
